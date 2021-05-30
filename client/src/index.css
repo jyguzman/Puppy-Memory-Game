@@ -1,0 +1,79 @@
+html, body {
+  
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+  overflow: hidden;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.gameStats {
+  text-align: center;
+  color: var(--priColor) !important;
+  text-transform: lowercase;
+  font-size: 4vw;
+  cursor: default; 
+  height: 15vh;
+  line-height: 15vh;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  max-height: 25%;
+}
+
+.title {
+  font-size: 4vw;
+  color: var(--priColor) !important;
+}
+.memoryCard {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+}
+
+@media screen and (min-aspect-ratio: 1/1) {
+  .memoryCard {
+    width: 100%;
+    padding-top: 20vh;
+    position: relative;
+  }  
+}
+.message {
+  text-align: center;
+}
+
+.c {
+  max-width: 150px;
+  max-height: 150px;
+  cursor: pointer;
+  
+}
+
+.front,
+.back {
+  background-size: cover;
+}
+
+.back {
+  background-image: url(https://pixabay.com/get/gb408ec9da33f4d82b874685968d2f99d3eae5cfc2ba703ba67c815b03ccd65edcd642ad7e216f3ec48804d72a577c2dc_640.png);
+}
+
+.solved {
+  color: #FFFFFF;
+  text-align: center;
+
+  
+  opacity: 0.85;
+  transition: visibility 0s 2s, opacity 2s linear;
+}
+
+
+
+
+
