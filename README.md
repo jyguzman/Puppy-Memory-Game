@@ -1,3 +1,3 @@
-# Getting Started with Create React App
+# React Puppy Memory Game
 
 A memory game featuring very cute puppies! To be deployed.
