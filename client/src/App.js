@@ -1,10 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useState, useEffect, useContext } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import Header from './components/Header';
 import Game from './components/Game';
-import axios from 'axios';
 
 function App() {
   return (

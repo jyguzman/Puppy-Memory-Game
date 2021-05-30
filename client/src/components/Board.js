@@ -36,7 +36,6 @@ const Board = (props) => {
     const classes = useStyles();
     const [cards, setCards] = useState([]);
     let timeout = useRef(null);
-    const [pups, setPup] = useState(cards);
     const [flipCount, setFlipCount] = useState(0);
     const [flippedCards, setFlippedCards] = useState([]);
     const [solvedCards, setSolvedCards] = useState({});
@@ -46,7 +45,23 @@ const Board = (props) => {
     const getImages = () => {
         axios.get("/images")
         .then(res => {
-          setCards(res.data.images);
+            const photos = res.data.images;
+            shuffle(photos);
+            let cards = [];
+            for(let i = 0; i < 8; i++) {
+                const card = {
+                    img: photos[i].src.original,
+                };
+
+                const match = {
+                    img: photos[i].src.original,
+                };
+
+                cards.push(card);
+                cards.push(match);
+            }
+            shuffle(cards);
+          setCards(cards);
         }).catch(err => console.log(err));
     }
 
@@ -62,6 +77,7 @@ const Board = (props) => {
         setDisableBoard(true);
     };
     const onCardClick = (index) => {
+        console.log(cards.length);
         if (flippedCards.length == 1) {
             setFlippedCards(prev => [...prev, index]);
             disableCards();

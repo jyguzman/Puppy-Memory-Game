@@ -28,7 +28,7 @@ app.get("/images", (req, res) => {
     },
   }).then(response => {
     const photos = response.data.photos;
-    let cards = [];
+    /*let cards = [];
     for(let i = 0; i < photos.length; i++) {
       const card = {
         img: photos[i].src.original,
@@ -40,9 +40,9 @@ app.get("/images", (req, res) => {
 
       cards.push(card);
       cards.push(match);
-    }
-    shuffle(cards);
-    res.json( {"images" : cards} );
+    }*/
+    //shuffle(cards);
+    res.json( {"images" : photos} );
   }).catch(err => console.log(err));
 });
 
