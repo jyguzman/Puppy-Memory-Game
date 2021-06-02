@@ -14,7 +14,9 @@ const GameEnd = (props) => {
                 <DialogTitle id="alert-dialog-title">{"You've won!"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText id="alert-dialog-description">
-                            You completed {props.difficulty} mode in {props.flipCount} moves!
+                            You completed {props.difficulty} mode in {props.flipCount} moves and 
+                            in {props.time}!
+                            
                             Click "Restart" to play again.
                         </DialogContentText>
                     </DialogContent>

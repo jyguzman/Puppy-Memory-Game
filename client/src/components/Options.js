@@ -4,7 +4,7 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
-import { makeStyles, Box } from '@material-ui/core';
+import { makeStyles, Box, Container } from '@material-ui/core';
 
 const useStyles = makeStyles((theme) => ({
     options: {
@@ -17,6 +17,7 @@ const Options = (props)  => {
   const [disabled, setDisabled] = useState(false);
 
   return (
+    <Container>
       <FormControl component="fieldset" className={classes.options}>
         <RadioGroup row aria-label="gender" name="gender1" value={props.difficulty} onChange={props.changeDifficulty}>
           <FormControlLabel disabled={props.inGame} value="easy" control={<Radio />} label="Easy - 6 Puppies" />
@@ -24,6 +25,7 @@ const Options = (props)  => {
           <FormControlLabel disabled={props.inGame} value="hard" control={<Radio />} label="Hard - 12 Puppies" />
         </RadioGroup>
       </FormControl>
+    </Container>
   );
 }
 

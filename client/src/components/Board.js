@@ -6,7 +6,7 @@ import GameEnd from './GameEnd';
 import Options from './Options';
 import axios from 'axios';
 
-const swap = (array, i, j) => {
+ const swap = (array, i, j) => {
     const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
@@ -18,6 +18,23 @@ const swap = (array, i, j) => {
         swap(array, j, i)
     }
   };
+
+    const formatTime = (time) => {
+        const seconds = time%60;
+        const minutes = Math.floor(time/60);
+        let result = "";
+
+        if (minutes < 10)
+            result += "0";
+        result += minutes + ":";
+
+        if (seconds < 10)
+            result += "0";
+        result += seconds;
+
+        return result;
+    
+  }
 
 const useStyles = makeStyles((theme) => ({
     grid: {
@@ -33,8 +50,11 @@ const useStyles = makeStyles((theme) => ({
 const Board = (props) => {
     const classes = useStyles();
     const [cards, setCards] = useState([]);
-    let timeout = useRef(null);
 
+    let timeout = useRef(null);
+    let timer = null;
+
+    const [time, setTime] = useState(0);
     const [difficulty, setDifficulty] = useState("easy");
     const [inGame, setInGame] = useState(false);
     const [flipCount, setFlipCount] = useState(0);
@@ -78,6 +98,13 @@ const Board = (props) => {
         getCards();
     }, [difficulty]);
 
+    useEffect(() => {
+        if (inGame)
+            timer = setTimeout(() => {
+                setTime(time + 1);
+            }, 1000);
+    });
+
     const disableOptions = () => {
         setInGame(true);
     }
@@ -90,7 +117,7 @@ const Board = (props) => {
         setDisableBoard(true);
     };
     const onCardClick = (index) => {
-        disableOptions();
+        setInGame(true);
         if (flippedCards.length === 1) {
             setFlippedCards(prev => [...prev, index]);
             disableCards();
@@ -131,6 +158,7 @@ const Board = (props) => {
             numToCheck = 12;
         if (Object.keys(solvedCards).length === numToCheck) {
             setShowGameEnd(true);
+            setInGame(false);
             return true;
         }
         return false;
@@ -145,10 +173,10 @@ const Board = (props) => {
         setSolvedCards([]);
         setFlippedCards([]);
         setFlipCount(0);
+        setTime(0);
         shuffle(cards);
         enableCards();
         setShowGameEnd(false);
-        setInGame(false);
     };
 
     const changeDifficulty = (event) => {
@@ -166,7 +194,7 @@ const Board = (props) => {
 
     return (
         <Container className={classes.grid}>
-            <Stats flipCount={flipCount}/>
+            <Stats time={formatTime(time)} flipCount={flipCount}/>
             <Box display={disableBoard ? "hidden" : "initial"}>
                 <Options inGame={inGame} difficulty={difficulty} changeDifficulty={changeDifficulty}/>
             </Box>
@@ -187,7 +215,7 @@ const Board = (props) => {
                     })
                 }
             </Grid>
-            <GameEnd difficulty={difficulty} open={showGameEnd} flipCount={flipCount} restartGame={restartGame}/>
+            <GameEnd difficulty={difficulty} open={showGameEnd} flipCount={flipCount} time={formatTime(time)} restartGame={restartGame}/>
         </Container>
     );
 
