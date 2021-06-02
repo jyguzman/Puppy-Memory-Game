@@ -58,12 +58,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Board = (props) => {
     const classes = useStyles();
-    const [images, setImages] = useState([]);
-
-    const [cards, setCards] = useState([]);
     let timeout = useRef(null);
     let timer = null;
 
+    const [cards, setCards] = useState([]);
     const [time, setTime] = useState(0);
     const [difficulty, setDifficulty] = useState("easy");
     const [inGame, setInGame] = useState(false);
