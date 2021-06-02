@@ -3,6 +3,7 @@ const axios = require("axios");
 const PORT = process.env.PORT || 3001;
 require('dotenv').config();
 const { Client } = require("pg");
+const path = require('path');
 
 const client = new Client({
   connectionString: process.env.DATABASE_URL,
