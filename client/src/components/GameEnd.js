@@ -4,26 +4,27 @@ import { Container, Dialog, DialogActions, DialogContent,
 const GameEnd = (props) => {
     return (
         <Container>
-        <Dialog
-            open={props.open}
-            disableBackdropClick
-            disableEscapeKeyDown
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">{"You've won!"}</DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        You completed the game in {props.flipCount} moves. Click "Restart" to play again.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={props.restartGame} color="primary">
-                        Restart
-                    </Button>
-                </DialogActions>
-        </Dialog>
-    </Container>
+            <Dialog
+                open={props.open}
+                disableBackdropClick
+                disableEscapeKeyDown
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">{"You've won!"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            You completed {props.difficulty} mode in {props.flipCount} moves!
+                            Click "Restart" to play again.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={props.restartGame} color="primary">
+                            Restart
+                        </Button>
+                    </DialogActions>
+            </Dialog>
+        </Container>
     );
 };
 

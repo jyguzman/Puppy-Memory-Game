@@ -27,7 +27,7 @@ const Header = () => {
         <Container className={classes.root}>
             <AppBar>
                 <Typography variant="h6" className={classes.title}>
-                    Memory Game
+                    Pictures from Pexels.com
                 </Typography>
             </AppBar>
         </Container>

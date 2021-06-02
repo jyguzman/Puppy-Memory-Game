@@ -6,7 +6,6 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  overflow: hidden;
 }
 
 code {
@@ -31,19 +30,7 @@ code {
   font-size: 4vw;
   color: var(--priColor) !important;
 }
-.memoryCard {
-  width: 100%;
-  padding-top: 100%;
-  position: relative;
-}
 
-@media screen and (min-aspect-ratio: 1/1) {
-  .memoryCard {
-    width: 100%;
-    padding-top: 20vh;
-    position: relative;
-  }  
-}
 .message {
   text-align: center;
 }
@@ -67,7 +54,6 @@ code {
 .solved {
   color: #FFFFFF;
   text-align: center;
-
   
   opacity: 0.85;
   transition: visibility 0s 2s, opacity 2s linear;

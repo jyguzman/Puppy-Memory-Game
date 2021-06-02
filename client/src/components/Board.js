@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Container, Grid, Box } from '@material-ui/core';
 import MemoryCard from './MemoryCard';
 import Stats from './Stats';
 import GameEnd from './GameEnd';
+import Options from './Options';
 import axios from 'axios';
 
 const swap = (array, i, j) => {
@@ -16,7 +15,6 @@ const swap = (array, i, j) => {
   const shuffle = array => {
     for(let i = array.length - 1; i >= 1; i--) {
         const j = Math.floor(Math.random() * (i+1));
-  
         swap(array, j, i)
     }
   };
@@ -36,38 +34,53 @@ const Board = (props) => {
     const classes = useStyles();
     const [cards, setCards] = useState([]);
     let timeout = useRef(null);
+
+    const [difficulty, setDifficulty] = useState("easy");
+    const [inGame, setInGame] = useState(false);
     const [flipCount, setFlipCount] = useState(0);
     const [flippedCards, setFlippedCards] = useState([]);
     const [solvedCards, setSolvedCards] = useState({});
     const [disableBoard, setDisableBoard] = useState(false);
     const [showGameEnd, setShowGameEnd] = useState(false);
 
-    const getImages = () => {
+    const getCards = () => {
         axios.get("/images")
         .then(res => {
             const photos = res.data.images;
             shuffle(photos);
             let cards = [];
-            for(let i = 0; i < 8; i++) {
+            let num_cards = 0;
+            if(difficulty === "easy")
+                num_cards = 6;
+            else if (difficulty === "medium")
+                num_cards = 8;
+            else num_cards = 12;
+            for(let i = 0; i < num_cards; i++) {
                 const card = {
                     img: photos[i].src.original,
+                    photographer: photos[i].photographer,
                 };
 
                 const match = {
                     img: photos[i].src.original,
+                    photographer: photos[i].photographer,
                 };
 
                 cards.push(card);
                 cards.push(match);
             }
             shuffle(cards);
-          setCards(cards);
+            setCards(cards);
         }).catch(err => console.log(err));
     }
 
     useEffect(() => {
-        getImages();
-    }, []);
+        getCards();
+    }, [difficulty]);
+
+    const disableOptions = () => {
+        setInGame(true);
+    }
 
     const enableCards = () => {
         setDisableBoard(false);
@@ -77,8 +90,8 @@ const Board = (props) => {
         setDisableBoard(true);
     };
     const onCardClick = (index) => {
-        console.log(cards.length);
-        if (flippedCards.length == 1) {
+        disableOptions();
+        if (flippedCards.length === 1) {
             setFlippedCards(prev => [...prev, index]);
             disableCards();
         } else {
@@ -111,7 +124,12 @@ const Board = (props) => {
     }
 
     const checkGameEnd = () => {
-        if (Object.keys(solvedCards).length === 8) {
+        let numToCheck = 6;
+        if (difficulty === "medium")
+            numToCheck = 8;
+        if (difficulty === "hard")
+            numToCheck = 12;
+        if (Object.keys(solvedCards).length === numToCheck) {
             setShowGameEnd(true);
             return true;
         }
@@ -123,18 +141,23 @@ const Board = (props) => {
     }, [solvedCards]);
 
     const restartGame = () => {
-        getImages();
+        getCards();
         setSolvedCards([]);
         setFlippedCards([]);
         setFlipCount(0);
         shuffle(cards);
         enableCards();
         setShowGameEnd(false);
+        setInGame(false);
     };
+
+    const changeDifficulty = (event) => {
+        setDifficulty(event.target.value);
+    }
 
     useEffect(() => {
         let timeout = null;
-        if (flippedCards.length == 2) {
+        if (flippedCards.length === 2) {
             checkMatch();
             timeout = setTimeout(checkMatch, 300);
         }
@@ -144,13 +167,15 @@ const Board = (props) => {
     return (
         <Container className={classes.grid}>
             <Stats flipCount={flipCount}/>
+            <Box display={disableBoard ? "hidden" : "initial"}>
+                <Options inGame={inGame} difficulty={difficulty} changeDifficulty={changeDifficulty}/>
+            </Box>
             <Grid item container spacing={2} style={{height: props.height/6*4}}>
                 {   
                     cards.map((card, index) => {
                         return (
                             <MemoryCard 
                                 onClick={onCardClick}
-                                id={card.id} 
                                 index={index}
                                 key={index}
                                 img={card.img} 
@@ -162,7 +187,7 @@ const Board = (props) => {
                     })
                 }
             </Grid>
-            <GameEnd open={showGameEnd} flipCount={flipCount} restartGame={restartGame} />
+            <GameEnd difficulty={difficulty} open={showGameEnd} flipCount={flipCount} restartGame={restartGame}/>
         </Container>
     );
 
