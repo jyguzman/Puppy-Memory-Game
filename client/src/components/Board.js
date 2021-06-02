@@ -23,7 +23,7 @@ import axios from 'axios';
         const seconds = time%60;
         const minutes = Math.floor(time/60);
         let result = "";
-
+        let timeInWords = "";
         if (minutes < 10)
             result += "0";
         result += minutes + ":";
@@ -32,7 +32,13 @@ import axios from 'axios';
             result += "0";
         result += seconds;
 
-        return result;
+        if (minutes === 0)
+            timeInWords = seconds + " seconds";
+        else if (minutes === 1)
+            timeInWords = "1 minute, " + seconds + " seconds";
+        else timeInWords = minutes + " minutes, " + seconds + " seconds";
+
+        return [result, timeInWords];
     
   }
 
@@ -194,7 +200,7 @@ const Board = (props) => {
 
     return (
         <Container className={classes.grid}>
-            <Stats time={formatTime(time)} flipCount={flipCount}/>
+            <Stats time={formatTime(time)[0]} flipCount={flipCount}/>
             <Box display={disableBoard ? "hidden" : "initial"}>
                 <Options inGame={inGame} difficulty={difficulty} changeDifficulty={changeDifficulty}/>
             </Box>
@@ -215,7 +221,7 @@ const Board = (props) => {
                     })
                 }
             </Grid>
-            <GameEnd difficulty={difficulty} open={showGameEnd} flipCount={flipCount} time={formatTime(time)} restartGame={restartGame}/>
+            <GameEnd difficulty={difficulty} open={showGameEnd} flipCount={flipCount} time={formatTime(time)[1]} restartGame={restartGame}/>
         </Container>
     );
 

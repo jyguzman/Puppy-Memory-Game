@@ -1,6 +1,6 @@
 import { Container, Dialog, DialogActions, DialogContent,
   DialogContentText, Button, DialogTitle } from "@material-ui/core";
-
+  
 const GameEnd = (props) => {
     return (
         <Container>
@@ -16,7 +16,7 @@ const GameEnd = (props) => {
                         <DialogContentText id="alert-dialog-description">
                             You completed {props.difficulty} mode in {props.flipCount} moves and 
                             in {props.time}!
-                            
+
                             Click "Restart" to play again.
                         </DialogContentText>
                     </DialogContent>
