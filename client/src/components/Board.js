@@ -77,6 +77,37 @@ const Board = (props) => {
         axios.get("/images")
         .then(res => {
             const photos = res.data.images;
+            console.log(photos);
+            shuffle(photos);
+            let cards = [];
+            let num_cards = 0;
+            if(difficulty === "easy")
+                num_cards = 6;
+            else if (difficulty === "medium")
+                num_cards = 8;
+            else num_cards = 12;
+            for(let i = 0; i < num_cards; i++) {
+                const card = {
+                    img: photos[i].images,
+                };
+
+                const match = {
+                    img: photos[i].images,
+                };
+
+                cards.push(card);
+                cards.push(match);
+            }
+            shuffle(cards);
+            setCards(cards);
+        }).catch(err => console.log(err));
+    }
+
+    /*
+    const getCards = () => {
+        axios.get("/images")
+        .then(res => {
+            const photos = res.data.images;
             shuffle(photos);
             let cards = [];
             let num_cards = 0;
@@ -103,6 +134,7 @@ const Board = (props) => {
             setCards(cards);
         }).catch(err => console.log(err));
     }
+    */
 
     useEffect(() => {
         getCards();

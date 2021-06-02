@@ -5,13 +5,6 @@ require('dotenv').config();
 const { Client } = require("pg");
 const path = require('path');
 
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-}); 
-
 const createTable = () => {
   client.connect();
   const query = "CREATE TABLE IF NOT EXISTS puppies ( images varchar(256) )";
@@ -50,7 +43,7 @@ const app = express();
 const url = "https://api.pexels.com/v1/search?query=puppy&per_page=80";
 const key = process.env.PEXELS_API_KEY;
 
-app.get("/images", (req, res) => {
+/*app.get("/images", (req, res) => {
   axios.get(url, {
     headers: {
       Authorization: key
@@ -59,6 +52,21 @@ app.get("/images", (req, res) => {
     const photos = response.data.photos;
     res.json( {"images" : photos} );
   }).catch(err => console.log(err));
+});*/
+
+app.get("/images", async (req, response) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  }); 
+  client.connect();
+  client.query("SELECT images FROM puppies", (err, res) => {
+    if (err) console.log(err);
+    response.json( {"images" : res.rows} );
+    client.end();
+  });
 });
 
 app.use(express.static(path.resolve(__dirname, 'client/build')));
