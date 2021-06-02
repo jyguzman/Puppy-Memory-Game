@@ -99,7 +99,7 @@ const Board = (props) => {
     }, [difficulty]);
 
     useEffect(() => {
-        if (inGame)
+        if (inGame && !showGameEnd)
             timer = setTimeout(() => {
                 setTime(time + 1);
             }, 1000);
