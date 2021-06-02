@@ -22,8 +22,9 @@ import axios from 'axios';
     const formatTime = (time) => {
         const seconds = time%60;
         const minutes = Math.floor(time/60);
+
         let result = "";
-        let timeInWords = "";
+        
         if (minutes < 10)
             result += "0";
         result += minutes + ":";
@@ -31,6 +32,8 @@ import axios from 'axios';
         if (seconds < 10)
             result += "0";
         result += seconds;
+
+        let timeInWords = "";
 
         if (minutes === 0)
             timeInWords = seconds + " seconds";
@@ -55,8 +58,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Board = (props) => {
     const classes = useStyles();
-    const [cards, setCards] = useState([]);
+    const [images, setImages] = useState([]);
 
+    const [cards, setCards] = useState([]);
     let timeout = useRef(null);
     let timer = null;
 
@@ -163,6 +167,7 @@ const Board = (props) => {
         if (difficulty === "hard")
             numToCheck = 12;
         if (Object.keys(solvedCards).length === numToCheck) {
+            timer = null;
             setShowGameEnd(true);
             setInGame(false);
             return true;
