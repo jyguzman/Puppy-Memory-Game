@@ -77,7 +77,6 @@ const Board = (props) => {
         axios.get("/images")
         .then(res => {
             const photos = res.data.images;
-            console.log(photos);
             shuffle(photos);
             let cards = [];
             let num_cards = 0;

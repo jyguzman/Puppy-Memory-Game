@@ -6,6 +6,12 @@ const { Client } = require("pg");
 const path = require('path');
 
 const createTable = () => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  }); 
   client.connect();
   const query = "CREATE TABLE IF NOT EXISTS puppies ( images varchar(256) )";
   client.query(query, (err, res) => {
@@ -16,6 +22,12 @@ const createTable = () => {
 }
 
 const insertImages = (images) => {
+  const client = new Client({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  }); 
   client.connect();
   let query = "INSERT INTO puppies (images) VALUES ";
   for(let i = 0; i < images.length; i++) {
